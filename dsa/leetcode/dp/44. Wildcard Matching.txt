@@ -1,0 +1,79 @@
+44. Wildcard Matching
+Hard
+
+3456
+
+160
+
+Add to List
+
+Share
+Given an input string (s) and a pattern (p), implement wildcard pattern matching with support for '?' and '*' where:
+
+'?' Matches any single character.
+'*' Matches any sequence of characters (including the empty sequence).
+The matching should cover the entire input string (not partial).
+
+ 
+
+Example 1:
+
+Input: s = "aa", p = "a"
+Output: false
+Explanation: "a" does not match the entire string "aa".
+Example 2:
+
+Input: s = "aa", p = "*"
+Output: true
+Explanation: '*' matches any sequence.
+Example 3:
+
+Input: s = "cb", p = "?a"
+Output: false
+Explanation: '?' matches 'c', but the second letter is 'a', which does not match 'b'.
+Example 4:
+
+Input: s = "adceb", p = "*a*b"
+Output: true
+Explanation: The first '*' matches the empty sequence, while the second '*' matches the substring "dce".
+Example 5:
+
+Input: s = "acdcb", p = "a*c?b"
+Output: false
+ 
+
+ ==========================================================================================================================
+
+
+class Solution {
+public:
+    unordered_map<string,bool>um;
+    bool helper(string s, string p, int i , int j)
+    {
+        
+        if(j ==p.size()) return i ==s.size();
+        
+        string key = to_string(i)+"deep"+to_string(j);
+        
+        if(um.count(key)) return um[key];
+        
+        
+        if(i ==s.size()) return um[key]= (p[j]=='*' and  helper(s,p,i,j+1));
+        
+        
+         bool chk = (i< s.size() and (p[j]=='?'  or p[j]==s[i]));
+        
+        if(p[j]=='*')
+            return um[key]= (helper(s,p,i+1,j) or helper(s,p,i,j+1));
+        
+       
+            
+        else return  um[key]= (chk and helper(s,p,i+1,j+1));
+        
+        
+        
+    }
+    bool isMatch(string s, string p) {
+        return helper(s,p,0,0);
+    }
+};

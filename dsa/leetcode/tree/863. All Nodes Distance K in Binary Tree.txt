@@ -1,0 +1,101 @@
+863. All Nodes Distance K in Binary Tree'
+
+
+Given the root of a binary tree, the value of a target node target, and an integer k, return an array of the values of all nodes that have a distance k from the target node.
+
+You can return the answer in any order.
+
+ 
+
+Example 1:
+
+
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], target = 5, k = 2
+Output: [7,4,1]
+Explanation: The nodes that are a distance 2 from the target node (with value 5) have values 7, 4, and 1.
+Example 2:
+
+Input: root = [1], target = 1, k = 3
+Output: []
+ 
+ ===================================================================================
+ /**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    
+  void   findParent( unordered_map<TreeNode*,TreeNode*>&um,TreeNode* root)
+    {
+        
+        if(root==NULL) return ;
+        if(root->left)
+            um[root->left] = root;
+        if(root->right)
+            um[root->right] =root;
+        
+        
+        findParent(um, root->left);
+        findParent(um, root->right);
+      
+      return ;
+        
+    }
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        
+        if(root==NULL) return {};
+        
+        unordered_map<TreeNode*,TreeNode*>um;
+        
+        findParent(um,root);
+        queue<TreeNode*> q;
+        q.push(target);
+        vector<int>res;
+     
+        
+        unordered_set<TreeNode*> visited;
+        
+        while(!q.empty())
+        {
+            int n = q.size();
+            
+            for(int i =0;i<n;i++)
+            {
+                
+                
+                TreeNode* temp = q.front();
+                visited.insert(temp);
+                q.pop();
+                
+                if(k==0)
+                {
+                   res.push_back(temp->val); 
+                }
+                
+                
+                if(temp->left  and !visited.count(temp->left))
+                    q.push(temp->left);
+                
+                if(temp->right and !visited.count(temp->right))
+                    q.push(temp->right);
+                
+                if(um.count(temp) and !visited.count(um[temp]))
+                    q.push(um[temp]);
+                
+            }
+            
+            
+            k--;
+        }
+        
+        
+        
+        return res;
+    }
+};

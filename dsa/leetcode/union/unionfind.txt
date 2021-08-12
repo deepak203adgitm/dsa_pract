@@ -1,0 +1,56 @@
+int find(int parent[], int i)
+{
+    if (parent[i] == -1)
+        return i;
+    return find(parent, parent[i]);
+}
+ 
+// A utility function to do union of two subsets
+void Union(int parent[], int x, int y)
+{
+    parent[x] = y;
+}
+
+
+
+
+============================================================================================================
+
+void make_set(int v) {
+    parent[v] = v;
+}
+
+int find_set(int v) {
+    if (v == parent[v])
+        return v;
+    return find_set(parent[v]);
+}
+
+void union_sets(int a, int b) {
+    a = find_set(a);
+    b = find_set(b);
+    if (a != b)
+        parent[b] = a;
+}
+
+==================================================================================================================
+
+
+void make_set(int v) {
+    parent[v] = v;
+}
+
+int find_set(int v) {
+    if (v == parent[v])
+        return v;
+    return find_set(parent[v]);
+}
+
+void union_sets(int a, int b) {
+    a = find_set(a);
+    b = find_set(b);
+    if (a != b)
+        parent[b] = a;
+}
+==================================================================================================================
+
